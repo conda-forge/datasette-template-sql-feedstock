@@ -3,26 +3,26 @@ schema_version: 1
 
 context:
   name: datasette-template-sql
-  version: "1.0.2"
+  version: "1.0.3"
 
 package:
   name: ${{ name|lower }}
   version: ${{ version }}
 
 source:
-  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/datasette-template-sql-${{ version }}.tar.gz
-  sha256: 664c795c319e820be635803198b505dc01621324a8b4627b269e4c174563e8c3
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/datasette_template_sql-${{ version }}.tar.gz
+  sha256: c31c96be9cbf10423a55089d3180cf2379debf1c4ac155ba2d95e55be7c02910
 
 build:
-  number: 2
+  number: 0
   noarch: python
   script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
     - python ${{ python_min }}.*
+    - uv-build >=0.9.18,<0.12.0
     - pip
-    - setuptools
   run:
     - python >=${{ python_min }},<4.0
     - datasette >=0.54
@@ -31,8 +31,10 @@ tests:
   - python:
       imports:
         - datasette_template_sql
-      python_version: ${{ python_min }}.*
       pip_check: true
+      python_version:
+      - ${{ python_min }}.*
+      - "*"
 
 about:
   summary: Datasette plugin for executing SQL queries from templates
